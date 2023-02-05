@@ -47,7 +47,11 @@ app.get("/:id", async (req, res) => {
       const findTrends = cur.value.find(
         (obj) => Object.keys(obj)[0] === keysToFind
       );
-      prev = [...prev, { key, value: findTrends }];
+      let value;
+      if (findTrends) {
+        value = findTrends[keysToFind];
+      }
+      prev = [...prev, { key, value }];
       return prev;
     }, []);
     responseData.sort((a, b) => {
