@@ -55,7 +55,7 @@ app.get("/:id", async (req, res) => {
       return prev;
     }, []);
     responseData.sort((a, b) => {
-      return new Date(a.key).getTime() - new Date(b.key).getTime();
+      return new Date(b.key).getTime() - new Date(a.key).getTime();
     });
     res.status(200).json(responseData);
   } catch (err) {
