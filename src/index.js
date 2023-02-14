@@ -1,6 +1,7 @@
-import express from "express";
-import bodyParser from "body-parser";
-import "dotenv/config";
+const express = require("express");
+const bodyParser = require("body-parser");
+require("dotenv/config");
+const { fetchTrends } = require("../lib/functions/fetchTrends");
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -60,6 +61,16 @@ app.get("/:id", async (req, res) => {
     res.status(200).json(responseData);
   } catch (err) {
     res.status(400).send("Bad Request");
+  }
+});
+
+app.get("/s3/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await fetchTrends(id);
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(400).json({ msg: "Bad Request" });
   }
 });
 
