@@ -1,7 +1,7 @@
 import { DeleteObjectsFromBucket, ListBucketKeys } from "./S3Client.js";
 
 const dropTrends = async (places: { woeid: number; country: string }[]) => {
-  for (const place of places) {
+  const deleteOperations = places.map(async (place) => {
     const Bucket = `${place.woeid}`;
     try {
       const contents = await ListBucketKeys(Bucket);
@@ -16,6 +16,9 @@ const dropTrends = async (places: { woeid: number; country: string }[]) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  });
+
+  await Promise.all(deleteOperations);
 };
+
 export { dropTrends };
